@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student</title>
+</head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient();
+  }
+    
+  .navbar {
+    background-color:#ab9aa2;
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo styles */
+.navbar-brand {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+/* Navigation links styles */
+.navbar-links a {
+    margin-right: 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 1.2rem;
+    border: #904C77 solid;
+    padding-top: 0.5vw;
+    padding-bottom: 0.5vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    background-color:#9a758c;
+    border-radius: 5px;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.navbar-links a:last-child {
+    margin-right: 0;
+}
+
+.navbar-links a:hover {
+    color: #000;
+}
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+  
+  .form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    border: 2px solid #19191a;
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  select,
+  input[type="date"] {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  button[type="submit"],
+  button[type="button"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button[type="submit"]:hover,
+  button[type="button"]:hover {
+    background-color: #0069d9;
+  }
+  
+  /* Responsive styles */
+  
+  @media only screen and (max-width: 767px) {
+    .container {
+      padding: 10px;
+    }
+    
+    .form-container {
+      max-width: 100%;
+      border-radius: 0;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-bottom: 2px solid #007bff;
+      padding: 10px;
+    }
+    
+    input[type="text"],
+    select,
+    input[type="date"] {
+      font-size: 14px;
+      padding: 8px;
+    }
+    
+    label {
+      font-size: 16px;
+    }
+    
+    button[type="submit"],
+    button[type="button"] {
+      font-size: 14px;
+      padding: 8px 16px;
+    }
+  }
+  
+  @media only screen and (min-width: 768px) and (max-width: 991px) {
+    .container {
+      max-width: 90%;
+    }
+  }
+  
+  @media only screen and (min-width: 992px) {
+    .container {
+      max-width: 70%;
+    }
+    
+    .form-container {
+      padding: 40px;
+    }
+    
+    input[type="text"],
+    select,
+    input[type="date"] {
+      font-size: 18px;
+      padding: 12px;
+    }
+    
+    label {
+      font-size: 20px;
+    }
+    
+    button[type="submit"],
+    button[type="button"] {
+      font-size: 18px;
+      padding: 12px 24px;
+    }
+  }
+</style>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="#">kwizo</a>
+            <div class="navbar-links">
+                <a href="logout">Log Out</a>       
+                </div> 
+            </div>
+        </div>
+      </nav>
+
+
+    <br>
+    <div class="form-container">
+        <h1>Quiz Information</h1>
+        <form action="createquiz" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label htmlFor="firstName">Quiz Title:</label>
+            <input type="text" id="firstName" name="quiz_title" required />
+          </div>
+          <div class="form-group">
+            <label htmlFor="lastName">Quiz Id:</label>
+            <input type="text" id="lastName" name="quiz_id" required />
+          </div>
+          <div class="form-group">
+            <label htmlFor="lastName">No Of Questions:</label>
+            <input type="text" id="lastName" name="num_questions" required />
+          </div>
+
+         
+          <div class="form-group">
+            <button type="submit">
+              Next
+            </button>
+          </div>
+        </form>
+      </div>
+</body>
+</html>

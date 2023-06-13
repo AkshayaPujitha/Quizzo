@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        background-color: #ededed;
+    background-image: radial-gradient(at 46% 98%, rgb(200, 220, 200) 0, hsla(122, 14%, 51%, 0) 50%),
+    radial-gradient(at 77% 18%, rgb(181, 131, 189) 0, hsla(294, 32%, 82%, 0) 50%),
+    radial-gradient(at 87% 88%, rgb(156, 197, 207) 0, hsla(191, 17%, 75%, 0) 50%),
+    radial-gradient(at 10% 77%, rgb(189, 170, 188) 0, hsla(303, 29%, 86%, 0) 50%),
+    radial-gradient(at 8% 6%, rgb(122, 134, 189) 0, hsla(228, 25%, 69%, 0) 50%),
+    radial-gradient(at 28% 7%, rgb(177, 156, 225) 0, hsla(258, 85%, 52%, 0) 50%),
+    radial-gradient(at 10% 55%, rgb(148, 142, 206)hsla(244, 93%, 54%, 0) 50%);
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+    }
+    form {
+        background-color: azure;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        row-gap: 2vh;
+    }
+    .text, select{
+        background-color: transparent;
+        border: none;
+        outline: 0;
+        height: 5vh;
+        font-size:medium;
+        text-align: center;
+        max-width: 80vw;
+    }
+    .text:focus, select:focus{
+        background-color: rgba(185, 207, 248, 0.516);
+        border-bottom: solid rgb(25, 45, 201);
+        transition:ease-in-out 0.1s;
+    }
+    #question {
+        min-width: 30vw;
+    }
+    .button 
+    {
+        height: 5vh;
+        width: 8vw;
+        font-size: large;
+        background-color: rgba(185, 207, 248, 0.516);
+        border: none;
+    }
+    .button:active {
+        background-color: rgb(25, 45, 201);
+        color: #ededed;
+    }
+</style>
+<body>
+    
+    <fieldset style="width:90%; height:90%">
+        
+    <form method="POST" action="createquestion">
+        {% csrf_token %}
+        <br>
+        <h1>Create Question</h1>
+        <h1>Quiz Id:{{quiz_id}}</h1>
+        <input type="hidden" name="quiz_id" value="{{quiz.quiz_id}}">
+        <!-- <label for="question">Question:</label> -->
+        <input type="text" name="question{{i}}" id="question" placeholder="Write the question here" class="text" required>
+        <!-- <br> -->
+        <!-- <label for="option1">Option 1:</label> -->
+        <input type="text" name="option1" id="option1" placeholder="Option 1" class="text" required>
+        <!-- <br> -->
+        <!-- <label for="option2">Option 2:</label> -->
+        <input type="text" name="option2" id="option2" placeholder="Option 2" class="text" required>
+        <!-- <br> -->
+        <!-- <label for="option3">Option 3:</label> -->
+        <input type="text" name="option3" id="option3" placeholder="Option 3" class="text" required>
+        <!-- <br> -->
+        <!-- <label for="option4">Option 4:</label> -->
+        <input type="text" name="option4" id="option4" placeholder="Option 4" class="text" required>
+        <!-- <br> -->
+        <!-- <label for="correct_option">Correct option:</label> -->
+        <select id="correct_option" name="correct_option">
+            <option value="" disabled selected hidden required>Choose the correct option</option>
+			<option value="option1">Option 1</option>
+			<option value="option2">Option 2</option>
+			<option value="option3">Option 3</option>
+			<option value="option4">Option 4</option>
+		</select>
+        <input type="submit" name="add" value="add" class="button">
+        <input type="submit" name="submit" value="Submit" class="button">
+        
+      
+      </form>
+    </fieldset>
+   
+</body>
+</html>

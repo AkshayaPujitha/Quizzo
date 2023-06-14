@@ -14,6 +14,7 @@ urlpatterns=[
     path('createquestion',views.QuestionCreate.as_view(),name="create question"),
     path('view_questions/<int:pk>',views.get_questions,name="get_question_by_quiz_id"),
     path('get/<int:quiz_id>',views.QuestionList.as_view(),name="drf_question_view"),
-    path('delete/<int:pk>',views.DeleteQuestion.as_view(),name="delete question")
+    path('delete/<int:pk>',views.DeleteQuestion.as_view(),name="delete question"),
+    path('update/<int:pk>',views.update,name="update-question")
     
 ]

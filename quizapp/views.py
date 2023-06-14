@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.shortcuts import HttpResponseRedirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -148,13 +148,23 @@ class QuestionList(generics.ListAPIView):
             id=question.id
             choice=Choice.objects.filter(question_id=id)
             choices.append(choice)
-        print(choices)
+        #print(choices)
         return render(request,"delete_question.html",{'questions':query_set,'choices':choices})
     
 class DeleteQuestion(generics.DestroyAPIView):
     queryset=Question.objects.all()
     serializer_class=QuestionSerializer
-    
+
+def update(request,pk):
+    print(pk)
+    question_text=request.POST.get('question_text')
+    if len(question_text)==0:
+        return HttpResponse("Question hasnt been updated")
+    print(question_text)
+    question=Question.objects.get(id=pk)
+    question.question_text = question_text
+    question.save()
+    return HttpResponse("Question updated sucessfully")
 
     
 

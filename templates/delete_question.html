@@ -54,7 +54,10 @@
 <body>
     <h1>Quiz Questions</h1>
     {% for question in questions %}
+    
         <div class="question">
+            <form method="POST" action="/update/{{ question.id }}" id="update-form-{{question.id}}">
+                {% csrf_token %}
             <input type="hidden" name="question_id" value="{{ question.id }}">
             <h2>{{ question.question_text }}</h2>
             <div class="choices">
@@ -71,9 +74,57 @@
             </div>
             <div class="actions">
                 <a href="/delete/{{ question.id }}">Delete</a>
-                <a href="/update/{{ question.id }}">Update</a>
+                <input type="hidden" name="question_text" value="{{ question_text }}">
+
+                <button type="submit" class="update-button" data-question-id="{{ question.id }}">Update</button>
+
             </div>
-        </div>
-    {% endfor %}
+        </form>
+    </div>
+       
+   
+        
+
+        
+        
+        {% endfor %}
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+            console.log("hi")
+            const updateButtons = document.querySelectorAll('.update-button');
+            console.log("byr")
+            updateButtons.forEach((button) => {
+                button.addEventListener('click', function() {
+                    const questionId = this.getAttribute('data-question-id');
+                    console.log("here")
+                    console.log(questionId)
+                    const form = document.querySelector(`form[action="/update/${questionId}"]`);
+
+                    console.log("here")
+
+                    console.log(form)
+                    const questionText = prompt('Enter the new question text:', '{{ question.question_text }}');
+                    if (questionText !== null) {
+                        const confirmUpdate = confirm(`Are you sure you want to update the question to: ${questionText}`);
+                        if (confirmUpdate) {
+                            const hiddenInput = document.createElement('input');
+                            hiddenInput.type = 'hidden';
+                            hiddenInput.name = 'question_text';
+                            hiddenInput.value = questionText;
+                            form.appendChild(hiddenInput);
+                            
+                            form.submit();
+                        }
+                    }
+                });
+            });
+        </script>
+       
+       
+         
+        
+    
 </body>
+
 </html>

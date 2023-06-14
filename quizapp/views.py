@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import auth,User
 from django.contrib import messages
 from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import CreateModelMixin
+from rest_framework.mixins import CreateModelMixin,RetrieveModelMixin
 from .models import Quiz
 from .serializers import *
 from rest_framework.response import Response
@@ -97,7 +97,7 @@ class QuestionCreate(generics.CreateAPIView):
             'question_text': question_text,
             'quiz': quiz_id
         }
-        print(question_data)
+        #print(question_data)
         serializer = self.get_serializer(data=question_data)
         serializer.is_valid(raise_exception=True)
         
@@ -121,3 +121,40 @@ class QuestionCreate(generics.CreateAPIView):
             return render(request,"create_question.html",{'quiz_id':quiz_store})
         else:
             return render(request,"home.html")
+        
+def get_questions(request,pk):
+    quiz=Quiz.objects.get(quiz_id=pk)
+    quiz_id=quiz.id
+    questions=Question.objects.get(quiz_id=quiz_id)
+    l=[]
+
+class QuestionList(generics.ListAPIView):
+    serializer_class = QuestionSerializer
+
+    #to over ride the query set
+    def get_queryset(self):
+        # Get the quiz_id from the URL parameter
+        quiz_id = self.kwargs.get('quiz_id')
+        quiz=Quiz.objects.get(quiz_id=quiz_id)
+        quiz_id=quiz.id
+        # Filter the questions based on the quiz_id
+        queryset = Question.objects.filter(quiz_id=quiz_id)
+        return queryset
+    
+    def get(self,request,*args,**kwargs):
+        query_set=self.get_queryset()
+        choices=[]
+        for question in query_set:
+            id=question.id
+            choice=Choice.objects.filter(question_id=id)
+            choices.append(choice)
+        print(choices)
+        return render(request,"delete_question.html",{'questions':query_set,'choices':choices})
+    
+class DeleteQuestion(generics.DestroyAPIView):
+    queryset=Question.objects.all()
+    serializer_class=QuestionSerializer
+    
+
+    
+

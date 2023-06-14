@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .question {
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .question h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .choices {
+            margin-left: 20px;
+        }
+        
+        .choice {
+            margin-bottom: 10px;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .actions a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        
+        .actions a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quiz Questions</h1>
+    {% for question in questions %}
+        <div class="question">
+            <input type="hidden" name="question_id" value="{{ question.id }}">
+            <h2>{{ question.question_text }}</h2>
+            <div class="choices">
+                {% for query in choices %}
+                    {% for choice in query %}
+                        {% if choice.question_id == question.id %}
+                    <div class="choice">
+                        <input type="radio" name="question{{ question.id }}" value="{{ choice.id }}" id="choice{{ choice.id }}">
+                        <label for="choice{{ choice.id }}">{{ choice.choice_text }}</label>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            <div class="actions">
+                <a href="/delete/{{ question.id }}">Delete</a>
+                <a href="/update/{{ question.id }}">Update</a>
+            </div>
+        </div>
+    {% endfor %}
+</body>
+</html>

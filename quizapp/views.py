@@ -6,7 +6,7 @@ from django.contrib.auth.models import auth,User
 from django.contrib import messages
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import CreateModelMixin,RetrieveModelMixin
-from .models import Quiz
+from .models import Quiz,Question,Student,Choice
 from .serializers import *
 from rest_framework.response import Response
 from rest_framework import generics
@@ -176,6 +176,84 @@ def edit(request):
     return render(request,"quiz_id_edit.html")
 
 #Student
+quiz_student_id=[]
+def give_quiz(request):
+    return render(request,"give_quiz.html")
+
+class QuestionListStudent(generics.ListAPIView):
+    serializer_class = QuestionSerializer
+
+    #to over ride the query set
+    def get_queryset(self):
+        # Get the quiz_id from the URL parameter
+        quiz_id = self.kwargs.get('quiz_id')
+        quiz=Quiz.objects.get(quiz_id=quiz_id)
+        
+        quiz_id=quiz.id
+        quiz_student_id.append(quiz_id)
+        
+        # Filter the questions based on the quiz_id
+        queryset = Question.objects.filter(quiz_id=quiz_id)
+        return queryset,quiz_id
+    
+    def get(self,request,*args,**kwargs):
+        query_set,quiz_id=self.get_queryset()
+        if request.user.is_authenticated:
+            current_user = request.user
+
+            student =Student.objects.filter()
+            for s in student:
+                print(s.user,current_user,s.quiz)
+                if current_user==s.user and quiz_id==s.quiz_id:
+                    return render(request,"already_given.html")
+        choices=[]
+        for question in query_set:
+            id=question.id
+            choice=Choice.objects.filter(question_id=id)
+            choices.append(choice)
+        #print(query_set)
+        if len(choices)==0:
+            return render(request,"give_quiz.html")
+        #print(choices)
+        #print(choices)
+        return render(request,"question_view.html",{'questions':query_set,'choices':choices})
+    
+user_choices={}
+def score(request):
+    print("hi")
+    global quiz_student_id
+    marks=0
+    questions=Question.objects.filter()
+    for question in questions:
+        choice_id = request.POST.get(f'question{question.id}')
+        if choice_id:
+            user_choices[question.id]=Choice.objects.get(id=choice_id)
+        else:
+            user_choices[question.id]=None
+    print(user_choices)
+    for id,obj in user_choices.items():
+        #if question is unattempted by the student
+        if obj is None:
+            continue
+        if obj.correct:
+            print("Correct u scored 4 marks")
+            marks+=4
+        else:
+            print("its incorrect")
+    print(marks)
+    print("hiiiiiiii")
+    ctx={'marks':marks}
+    if request.user.is_authenticated:
+        # Get the current user
+        current_user = request.user
+        quiz = Quiz.objects.get(id=quiz_student_id[-1])
+        student = Student(user=current_user, total_marks=marks, quiz=quiz)
+        # Save the new Student instance to the database
+        student.save()
+    return render(request,"score.html",ctx)
+    
+
+
 
     
 

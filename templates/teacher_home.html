@@ -44,21 +44,12 @@
         <h1>Hey, {{ user.username }}</h1>
     
         <div class="login-register">
+         
+          <a href="edit">Edit Questions</a>
+          <a href="quiz_create">Create Quiz</a>
           <a href="logout">Logout</a>
-          <a href="quiz.html">Lets Start</a>
         </div>
         </div>
-    
-{% else %}
-    <div class="container">
-    <h1> Welcome To Kwizzo</h1>
-    <div class="login-register">
-      <a href="login.html">Login</a>
-      <a href="register.html">Register</a>
-      <a href="login.html">Teacher Login</a>
-    </div>
-    </div>
+
 {% endif %}
-    
-</body>
 </html>

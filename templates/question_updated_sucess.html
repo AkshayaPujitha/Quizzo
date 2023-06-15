@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Already Given</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+</head>
+ <style>
+    body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #ffffff;
+        /* justify-content: space-evenly; */
+      }
+      
+    .navbar {
+        background-color: #ab9aa2;
+        height: 20vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20vh;
+        width: 100vw;
+    }
+
+    .navbar-container {
+        width: 100%;
+        max-width: 1200px;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+
+    /* Logo styles */
+    .navbar-brand {
+        font-size: 4rem;
+        font-weight: bold;
+        color: #ffffff;
+        text-decoration: none;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+    }
+
+    /* Navigation links styles */
+    .navbar-links a {
+        margin-right: 20px;
+        color: #333;
+        text-decoration: none;
+        font-size: 1.2rem;
+        border: #904C77 solid;
+        padding-top: 0.5vw;
+        padding-bottom: 0.5vw;
+        padding-left: 2vw;
+        padding-right: 2vw;
+        background-color:#9a758c;
+        border-radius: 5px;
+        color: #fff;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .navbar-links a:last-child {
+        margin-right: 0;
+    }
+
+    .navbar-links a:hover {
+        color: #000;
+    }
+        
+        .message-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: 30vh;
+            width: 75vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        b {
+            font-size: 2rem;
+            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+        }
+        /* Navbar styles */
+   
+    </style>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="#">kwizo</a>
+            <div class="navbar-links">
+                <a href="logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+    <div class="message-container">
+        <b>Question Updated sucessfully</b>
+    </div>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizId</title>
+</head>
+<style>
+    /* Navbar styles */
+    body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        background-color: #ffffff;
+      }
+      
+    .navbar {
+        background-color:#ab9aa2;
+        height: 20vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-container {
+        width: 100%;
+        max-width: 1200px;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Logo styles */
+    .navbar-brand {
+        font-size: 4rem;
+        font-weight: bold;
+        color: #ffffff;
+        text-decoration: none;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+    }
+
+    /* Navigation links styles */
+    .navbar-links a {
+        margin-right: 20px;
+        color: #333;
+        text-decoration: none;
+        font-size: 1.2rem;
+        border: #904C77 solid;
+        padding-top: 0.5vw;
+        padding-bottom: 0.5vw;
+        padding-left: 2vw;
+        padding-right: 2vw;
+        background-color:#9a758c;
+        border-radius: 5px;
+        color: #fff;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .navbar-links a:last-child {
+        margin-right: 0;
+    }
+
+    .navbar-links a:hover {
+        color: #000;
+    }
+
+    /* Form styles */
+    .form-wrapper {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    form {
+        padding: 30px;
+        /* background-color: #fff; */
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40%;
+        margin-top: -50px
+      }
+      
+      form {
+        width: 80%;
+        max-width: 500px;
+        padding: 30px;
+        background-color:#e8e3e8;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="text"] {
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        font-size: 1.2rem;
+        width: 100%;
+    }
+
+    input[type="submit"] {
+        background-color: #119DA4;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #119DA4;
+    }
+</style>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="#">kwizo</a>
+            <div class="navbar-links">
+                <a href="logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="form-wrapper">
+        <form action="javascript:void(0);" method="POST" onsubmit="submitForm(event)">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="quiz_id">Quiz ID:</label>
+               
+
+            <input type="text" name="quiz_id" id="quiz_id">
+          </div>
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+      
+</body>
+<script>
+    function submitForm(event) {
+        event.preventDefault(); // Prevent form submission
+      
+        var quizId = document.getElementById("quiz_id").value;
+        var url = "get/" + quizId; // Construct the URL using the entered quiz ID
+      
+        // Redirect to the constructed URL
+        window.location.href = url;
+      }
+      
+</script>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score</title>
+</head>
+<style>
+    /* Navbar styles */
+    body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+      }
+      
+    .navbar {
+        background-color: #fff;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-container {
+        width: 100%;
+        max-width: 1200px;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Logo styles */
+    .navbar-brand {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+        text-decoration: none;
+    }
+
+    /* Navigation links styles */
+    .navbar-links a {
+        margin-right: 20px;
+        color: #333;
+        text-decoration: none;
+        font-size: 1.2rem;
+    }
+
+    .navbar-links a:last-child {
+        margin-right: 0;
+    }
+
+    .navbar-links a:hover {
+        color: #000;
+    }
+    
+    /* Box styles */
+    .box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80%;
+        height: 200px;
+        margin: auto;
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Text styles */
+    b {
+        font-size: 2rem;
+    }
+</style>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="#">kwizo</a>
+            <div class="navbar-links">
+                <a href="logout">Logout</a>
+                <a href="leader_board.html">Leader Board</a>
+            </div>
+        </div>
+    </nav>
+    <div class="box">
+        <b>Yay {{user.username}},</b>
+        <b>You scored {{marks}}</b>
+    </div>
+</body>
+</html>

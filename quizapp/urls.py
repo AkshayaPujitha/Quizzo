@@ -15,6 +15,8 @@ urlpatterns=[
     path('view_questions/<int:pk>',views.get_questions,name="get_question_by_quiz_id"),
     path('get/<int:quiz_id>',views.QuestionList.as_view(),name="drf_question_view"),
     path('delete/<int:pk>',views.DeleteQuestion.as_view(),name="delete question"),
-    path('update/<int:pk>',views.update,name="update-question")
+    path('update/<int:pk>',views.update,name="update-question"),
+    path('teacher_home.html',views.teacher_home,name="teacher home page"),
+    path('edit',views.edit,name="edit")
     
 ]

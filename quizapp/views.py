@@ -14,7 +14,7 @@ from rest_framework import status
 
 
 
-# Create your views here.
+# home and login
 q_id=[]
 def home(request):
     context={'user':None}
@@ -51,6 +51,9 @@ def login(request):
         user=auth.authenticate(username=uname,password=pwd)
         if user is not None:
             auth.login(request,user)
+            if user.is_staff:
+                context={'user':user}
+                return render(request,"teacher_home.html",context)
             context={'user':user}
             #print(user)
             user=User.objects.filter(username=uname).first()
@@ -66,7 +69,7 @@ def logout(request):
 def quiz_create(request):
     return render(request,"quiz_create.html")
 
-
+#Creating Quiz 
 class QuizIdCreate(CreateModelMixin,GenericAPIView):
     queryset=Quiz.objects.all()
     serializer_class=QuizSerializer
@@ -164,7 +167,15 @@ def update(request,pk):
     question=Question.objects.get(id=pk)
     question.question_text = question_text
     question.save()
-    return HttpResponse("Question updated sucessfully")
+    return render(request,"question_updated_sucess.html")
+
+def teacher_home(request):
+    return render(request,"teacher_home.html")
+
+def edit(request):
+    return render(request,"quiz_id_edit.html")
+
+#Student
 
     
 

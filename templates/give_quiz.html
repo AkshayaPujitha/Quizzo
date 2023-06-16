@@ -153,10 +153,10 @@
         <form action="javascript:void(0);" method="POST" onsubmit="submitForm(event)">
             {% csrf_token %}
             <div class="form-group">
-                <label for="quiz_id">Quiz ID:</label>
+                <label for="quiz_id" >Quiz ID:</label>
                
 
-            <input type="text" name="quiz_id" id="quiz_id">
+            <input type="text" name="quiz_id" id="quiz_id" required />
           </div>
           <input type="submit" value="Submit">
         </form>
@@ -168,7 +168,8 @@
         event.preventDefault(); // Prevent form submission
       
         var quizId = document.getElementById("quiz_id").value;
-        var url = "quiz/" + quizId; // Construct the URL using the entered quiz ID
+        console.log(quizId)
+        var url = "http://127.0.0.1:8000/quiz/" + quizId; // Construct the URL using the entered quiz ID
       
         // Redirect to the constructed URL
         window.location.href = url;

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+</head>
+<style>
+    /* Navbar styles */
+  
+.navbar {
+    background-color:#ab9aa2;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo styles */
+.navbar-brand {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+}
+
+/* Navigation links styles */
+.navbar-links a {
+    margin-right: 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.navbar-links a:last-child {
+    margin-right: 0;
+}
+
+.navbar-links a:hover {
+    color: #000;
+}
+</style>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="#">kwizo</a>
+            <div class="navbar-links">
+                <a href="logout" style="color:white">Logout</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-4">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Rank</th>
+            <th scope="col">Username</th>
+            <th scope="col">Score</th>
+            <th scope="col">Quiz Id</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for rank, user, student in ranked_list %}
+              <tr>
+                <th scope="row">{{ rank }}</th>
+                <td>{{ user.username }}</td>
+                <td>{{ student.total_marks }}</td>
+                <td>{{ quiz_id }}</td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="4">No records found.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+       
+      </table>
+    </div>
+</body>
+</html>

@@ -22,6 +22,7 @@ urlpatterns=[
     #Students
     path('quiz.html',views.give_quiz,name="give quiz id"),
     path('quiz/<int:quiz_id>',views.QuestionListStudent.as_view(),name="question list for students"),
-    path('score',views.score,name="get score")
+    path('score',views.score,name="get score"),
+    path('leader_board.html',views.leader_board,name="leader board")
     
 ]

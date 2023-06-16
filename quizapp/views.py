@@ -187,8 +187,10 @@ class QuestionListStudent(generics.ListAPIView):
     def get_queryset(self):
         # Get the quiz_id from the URL parameter
         quiz_id = self.kwargs.get('quiz_id')
-        quiz=Quiz.objects.get(quiz_id=quiz_id)
-        
+        try:
+            quiz=Quiz.objects.get(quiz_id=quiz_id)
+        except:
+            return None,None
         quiz_id=quiz.id
         quiz_student_id.append(quiz_id)
         
@@ -198,6 +200,8 @@ class QuestionListStudent(generics.ListAPIView):
     
     def get(self,request,*args,**kwargs):
         query_set,quiz_id=self.get_queryset()
+        if query_set is None:
+            return render(request,"give_quiz.html")
         if request.user.is_authenticated:
             current_user = request.user
 
@@ -230,7 +234,7 @@ def score(request):
             user_choices[question.id]=Choice.objects.get(id=choice_id)
         else:
             user_choices[question.id]=None
-    print(user_choices)
+    #print(user_choices)
     for id,obj in user_choices.items():
         #if question is unattempted by the student
         if obj is None:
@@ -240,8 +244,8 @@ def score(request):
             marks+=4
         else:
             print("its incorrect")
-    print(marks)
-    print("hiiiiiiii")
+    #print(marks)
+    #print("hiiiiiiii")
     ctx={'marks':marks}
     if request.user.is_authenticated:
         # Get the current user
@@ -251,6 +255,37 @@ def score(request):
         # Save the new Student instance to the database
         student.save()
     return render(request,"score.html",ctx)
+
+from operator import itemgetter
+
+def leader_board(request):
+    global quiz_student_id
+    quiz_id = quiz_student_id[-1]
+    print(quiz_student_id[-1])
+    
+    students = Student.objects.filter(quiz_id=quiz_id)
+    users = []
+    
+    for student in students:
+        user_id = student.user_id
+        user = User.objects.get(id=user_id)
+        users.append(user)
+    
+    quiz = Quiz.objects.get(id=quiz_id)
+    quiz_id = quiz.quiz_id
+    
+    combined_list = list(zip(users, students))
+    combined_list = sorted(combined_list, key=lambda x: x[1].total_marks, reverse=True)
+    
+    ranked_list = [(rank+1, user, student) for rank, (user, student) in enumerate(combined_list)]
+    
+    context = {
+        'ranked_list': ranked_list,
+        'quiz_id': quiz_id
+    }
+
+    return render(request, "leader_board.html", context)
+
     
 
 

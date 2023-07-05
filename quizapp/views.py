@@ -11,7 +11,7 @@ from .serializers import *
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,IsAdminUser
 
 
 
@@ -129,7 +129,7 @@ class QuestionCreate(generics.CreateAPIView):
 
 
 class QuestionList(generics.ListAPIView):
-    permission_classes=[IsAuthenticated]
+    permission_classes=[IsAdminUser]
     serializer_class = QuestionSerializer
 
     #to over ride the query set
@@ -153,6 +153,7 @@ class QuestionList(generics.ListAPIView):
         return render(request,"delete_question.html",{'questions':query_set,'choices':choices})
     
 class DeleteQuestion(generics.DestroyAPIView):
+    permission_classes=[IsAdminUser]
     queryset=Question.objects.all()
     serializer_class=QuestionSerializer
 
@@ -179,6 +180,7 @@ def give_quiz(request):
     return render(request,"give_quiz.html")
 
 class QuestionListStudent(generics.ListAPIView):
+    permission_classes=[IsAuthenticated]
     serializer_class = QuestionSerializer
 
     #to over ride the query set

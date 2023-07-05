@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -78,13 +79,9 @@ WSGI_APPLICATION = "quiz.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-   'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'quizzo',
-        'USER' : 'postgres',
-        'PASSWORD':'Pujitha@23',
-        'HOST':'localhost',
-    }
+   'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+        
+    
 
 }
 

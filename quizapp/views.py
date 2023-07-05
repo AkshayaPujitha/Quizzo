@@ -11,6 +11,7 @@ from .serializers import *
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 
 
@@ -91,7 +92,7 @@ class QuestionCreate(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         question_text=request.data.get('question')
         method=request.data.get('add',None)
-        print(request.data)
+        #print(request.data)
         quiz_id=q_id[-1]
         quiz_store=quiz_id
         quiz=Quiz.objects.get(quiz_id=quiz_id)
@@ -123,15 +124,12 @@ class QuestionCreate(generics.CreateAPIView):
         if method is not None:
             return render(request,"create_question.html",{'quiz_id':quiz_store})
         else:
-            return render(request,"home.html")
+            return render(request,"teacher_home.html")
         
-def get_questions(request,pk):
-    quiz=Quiz.objects.get(quiz_id=pk)
-    quiz_id=quiz.id
-    questions=Question.objects.get(quiz_id=quiz_id)
-    l=[]
+
 
 class QuestionList(generics.ListAPIView):
+    permission_classes=[IsAuthenticated]
     serializer_class = QuestionSerializer
 
     #to over ride the query set
@@ -159,11 +157,11 @@ class DeleteQuestion(generics.DestroyAPIView):
     serializer_class=QuestionSerializer
 
 def update(request,pk):
-    print(pk)
+    #print(pk)
     question_text=request.POST.get('question_text')
     if len(question_text)==0:
         return HttpResponse("Question hasnt been updated")
-    print(question_text)
+    #print(question_text)
     question=Question.objects.get(id=pk)
     question.question_text = question_text
     question.save()
@@ -207,7 +205,7 @@ class QuestionListStudent(generics.ListAPIView):
 
             student =Student.objects.filter()
             for s in student:
-                print(s.user,current_user,s.quiz)
+                #print(s.user,current_user,s.quiz)
                 if current_user==s.user and quiz_id==s.quiz_id:
                     return render(request,"already_given.html")
         choices=[]
@@ -224,7 +222,7 @@ class QuestionListStudent(generics.ListAPIView):
     
 user_choices={}
 def score(request):
-    print("hi")
+    #print("hi")
     global quiz_student_id
     marks=0
     questions=Question.objects.filter()
@@ -261,7 +259,7 @@ from operator import itemgetter
 def leader_board(request):
     global quiz_student_id
     quiz_id = quiz_student_id[-1]
-    print(quiz_student_id[-1])
+    #print(quiz_student_id[-1])
     
     students = Student.objects.filter(quiz_id=quiz_id)
     users = []

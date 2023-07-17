@@ -6,9 +6,9 @@ from quizapp import views
 
 urlpatterns=[
     path('',views.home,name="home"),
-    path('login.html',views.login,name="login"),
-    path('register.html',views.register,name="register"),
-    path('logout', views.logout, name='logout'),
+    path('login/',views.login,name="login"),
+    path('register/',views.register,name="register"),
+    path('logout/', views.logout, name='logout'),
     #Teachers
     path('quiz_create',views.quiz_create,name="quiz_create"),
     path('createquiz',views.QuizIdCreate.as_view(),name="create quiz"),
@@ -20,7 +20,7 @@ urlpatterns=[
     path('teacher_home.html',views.teacher_home,name="teacher home page"),
     path('edit',views.edit,name="edit"),
     #Students
-    path('quiz.html',views.give_quiz,name="give quiz id"),
+    path('give_quiz/',views.give_quiz,name="give_quiz"),
     path('quiz/<int:quiz_id>',views.QuestionListStudent.as_view(),name="question list for students"),
     path('score',views.score,name="get score"),
     path('leader_board.html',views.leader_board,name="leader board")

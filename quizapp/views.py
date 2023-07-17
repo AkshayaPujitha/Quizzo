@@ -58,7 +58,7 @@ def login(request):
             context={'user':user}
             #print(user)
             user=User.objects.filter(username=uname).first()
-            return render(request,'home.html',context)
+            return render(request,'home_student.html',context)
         else:
             messages.error(request,"Username or password is wrong")
     return render(request,'login.html')

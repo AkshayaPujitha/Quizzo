@@ -120,32 +120,113 @@
             font-family: 'Montserrat', sans-serif;
         }
         /* Navbar styles */
+        .container {
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 20px;
+        }
+        
+        h1, h2 {
+          text-align: center;
+        }
+        
+        .active-quizzes, .analysis {
+          margin-top: 30px;
+        }
+        
+        #analysis-chart {
+          height: 300px;
+          width: 100%;
+        }
    
       
       
 </style>
 <body>
-  <nav class="navbar">
-    <div class="navbar-container">
-        <a class="navbar-brand" href="#">kwizo</a>
-        <div class="navbar-links">
-            
-        </div>
-    </div>
-</nav>
-    
-    {% if user.is_authenticated %}
 
-    <div class="container">
-        <h1>Hey, {{ user.username }}</h1>
     
-        <div class="login-register">
-          <a href="logout">Logout</a>
-          <a href="{% url 'give_quiz' %}">Lets Start</a>
-        </div>
-        </div>
+    {% if authenticated %}
+    <nav class="navbar">
+      <div class="navbar-container">
+          <a class="navbar-brand" href="#">kwizo</a>
+          <div class="navbar-links">
+            <a href="{% url 'logout' %}">Logout</a>
+            <a href="{% url 'give_quiz' %}">Lets Start</a>
+          </div>
+      </div>
+  </nav>
+
+  <div class="container">
+    <h1>Quiz Dashboard</h1>
+    <div class="active-quizzes">
+      <h2>Active Quizzes</h2>
+      <ul id="active-quizzes-list"></ul>
+    </div>
+    <div class="analysis">
+      <h2>Real-time Analysis</h2>
+      <div id="analysis-chart"></div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Fetch Active Quizzes
+    fetch("/get_quizzes/")
+      .then(response => response.json())
+      .then(activeQuizzes => {
+        // Display Active Quizzes
+        const activeQuizzesList = document.getElementById("active-quizzes-list");
+        activeQuizzes.forEach(quiz => {
+          const listItem = document.createElement("li");
+          listItem.textContent = `Quiz ID: ${quiz.quizId} - Marks: ${quiz.marks}`;
+          activeQuizzesList.appendChild(listItem);
+        });
+  
+        // Real-time Analysis Chart
+        const quizIds = activeQuizzes.map(quiz => quiz.quizId);
+        const marks = activeQuizzes.map(quiz => quiz.marks);
+  
+        const chartData = {
+          labels: quizIds,
+          datasets: [{
+            label: "Marks",
+            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 1,
+            data: marks,
+          }]
+        };
+  
+        const analysisChart = document.getElementById("analysis-chart");
+        new Chart(analysisChart, {
+          type: "bar",
+          data: chartData,
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 100
+              }
+            }
+          }
+        });
+      })
+      .catch(error => console.error("Error fetching active quizzes:", error));
+  });
+  
+  
+</script>
+
     
 {% else %}
+<nav class="navbar">
+  <div class="navbar-container">
+      <a class="navbar-brand" href="#">kwizo</a>
+      <div class="navbar-links">
+          
+      </div>
+  </div>
+</nav>
     <div class="container">
     <h1> Welcome To Kwizzo</h1>
     <div class="login-register">

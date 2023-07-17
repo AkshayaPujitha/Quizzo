@@ -12,13 +12,16 @@ from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
+from django.http import JsonResponse
 
 
 
 # home and login
 q_id=[]
 def home(request):
-    context={'user':None}
+    user=request.session.get('user')
+    authenticated=request.session.get('authenticated')
+    context={'user':user,'authenticated':authenticated}
     return render(request,'home.html',context)
 
 def register(request):
@@ -27,10 +30,13 @@ def register(request):
         email=request.POST['email']    
         password=request.POST['pwd']
         cpwd=request.POST['cpwd']
+        messages=[]
         if password==cpwd:
             if User.objects.filter(username=your_name).exists():
+                messages.append("User Name Taken")
                 print('User Name Taken')
             elif User.objects.filter(email=email).exists():
+                messages.append("Email Already Taken")
                 print('Email Already Taken')
             else:
                 user = User.objects.create_user(username=your_name,password=password,email=email)
@@ -40,10 +46,12 @@ def register(request):
                 return render(request,'home.html',context)
     # users=User.objects.all()
         else:
+            context={'user':None}
+            messages.append("Passsword Not Matching")
             print('Passsword Not Matching')
-            return render(request,'register.html')
+            return render(request,'register.html',{'messages':messages})
 
-    return render(request,'register.html')
+    return render(request,'register.html',{'messages':messages})
 
 def login(request):
     if request.method == 'POST':
@@ -58,7 +66,9 @@ def login(request):
             context={'user':user}
             #print(user)
             user=User.objects.filter(username=uname).first()
-            return render(request,'home_student.html',context)
+            request.session['authenticated'] = user.is_authenticated
+            request.session['user'] = user.username
+            return redirect('home')
         else:
             messages.error(request,"Username or password is wrong")
     return render(request,'login.html')
@@ -285,6 +295,22 @@ def leader_board(request):
     }
 
     return render(request, "leader_board.html", context)
+
+def get_quizes(request):
+    user=request.user
+    id=user.id
+    active_quizzes=Quiz.objects.filter(is_active=True)
+    attempted_quizzes = Student.objects.filter(student_id=id).values_list('quiz_id', flat=True)
+    unattempted_quizzes = active_quizzes.exclude(id__in=attempted_quizzes)
+    quizzes = []
+    for quiz in unattempted_quizzes:
+        quizzes.append({
+            'quizId': quiz.quiz_id,
+            'marks': quiz.marks
+        })
+
+    return JsonResponse(quizzes, safe=False)
+    
 
     
 

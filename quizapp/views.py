@@ -35,9 +35,11 @@ def register(request):
             if User.objects.filter(username=your_name).exists():
                 messages.append("User Name Taken")
                 print('User Name Taken')
+                return render(request,'register.html',{'messages':messages})
             elif User.objects.filter(email=email).exists():
                 messages.append("Email Already Taken")
                 print('Email Already Taken')
+                return render(request,'register.html',{'messages':messages})
             else:
                 user = User.objects.create_user(username=your_name,password=password,email=email)
                 user.save()
@@ -51,7 +53,7 @@ def register(request):
             print('Passsword Not Matching')
             return render(request,'register.html',{'messages':messages})
 
-    return render(request,'register.html',{'messages':messages})
+    return render(request,'register.html')
 
 def login(request):
     if request.method == 'POST':

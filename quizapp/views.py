@@ -13,6 +13,11 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from django.http import JsonResponse
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework import status
+
+
 
 
 
@@ -64,7 +69,7 @@ def login(request):
             auth.login(request,user)
             if user.is_staff:
                 context={'user':user}
-                return render(request,"teacher_home.html",context)
+                return redirect('teacher home page')
             context={'user':user}
             #print(user)
             user=User.objects.filter(username=uname).first()
@@ -169,16 +174,21 @@ class DeleteQuestion(generics.DestroyAPIView):
     queryset=Question.objects.all()
     serializer_class=QuestionSerializer
 
+@permission_classes([IsAuthenticated])
 def update(request,pk):
     #print(pk)
     question_text=request.POST.get('question_text')
-    if len(question_text)==0:
-        return HttpResponse("Question hasnt been updated")
-    #print(question_text)
-    question=Question.objects.get(id=pk)
-    question.question_text = question_text
-    question.save()
-    return render(request,"question_updated_sucess.html")
+    try:
+        if len(question_text)==0:
+            return HttpResponse("Question hasnt been updated")
+        #print(question_text)
+        question=Question.objects.get(id=pk)
+        question.question_text = question_text
+        question.save()
+        return render(request,"question_updated_sucess.html")
+    except:
+        error_data = {'error': 'Some error message'}
+        return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
 
 def teacher_home(request):
     return render(request,"teacher_home.html")
@@ -188,6 +198,8 @@ def edit(request):
 
 #Student
 quiz_student_id=[]
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def give_quiz(request):
     return render(request,"give_quiz.html")
 
@@ -235,6 +247,8 @@ class QuestionListStudent(generics.ListAPIView):
         return render(request,"question_view.html",{'questions':query_set,'choices':choices})
     
 user_choices={}
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def score(request):
     #print("hi")
     global quiz_student_id
@@ -268,8 +282,8 @@ def score(request):
         student.save()
     return render(request,"score.html",ctx)
 
-from operator import itemgetter
-
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def leader_board(request):
     global quiz_student_id
     quiz_id = quiz_student_id[-1]
@@ -298,6 +312,8 @@ def leader_board(request):
 
     return render(request, "leader_board.html", context)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_quizes(request):
     user=request.user
     id=user.id
